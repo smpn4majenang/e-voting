@@ -3,284 +3,313 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>E-Voting OSIS - SMPN 4 Majenang</title>
+    <title>E-Voting Terpadu - SMPN 4 Majenang</title>
     
-    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    
-    <!-- Font Awesome -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    
-    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    
-    <!-- SweetAlert2 -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <style>
         body { font-family: 'Poppins', sans-serif; }
-        .candidate-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-        }
-        .loader {
-            border: 4px solid #f3f3f3;
-            border-top: 4px solid #3b82f6;
-            border-radius: 50%;
-            width: 30px;
-            height: 30px;
-            animation: spin 1s linear infinite;
-        }
+        .candidate-card:hover { transform: translateY(-5px); box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1); }
+        .loader { border: 4px solid #f3f3f3; border-top: 4px solid #3b82f6; border-radius: 50%; width: 30px; height: 30px; animation: spin 1s linear infinite; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        /* Step indicator */
+        .step-active { @apply bg-blue-600 text-white border-blue-600; }
+        .step-inactive { @apply bg-white text-gray-400 border-gray-200; }
+        .step-done { @apply bg-green-500 text-white border-green-500; }
     </style>
 </head>
 <body class="bg-slate-100 text-slate-800 min-h-screen relative overflow-x-hidden">
 
-    <!-- Background Decoration -->
-    <div class="fixed top-0 left-0 w-full h-full overflow-hidden -z-10">
-        <div class="absolute top-[-10%] left-[-10%] w-96 h-96 bg-blue-300 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob"></div>
-        <div class="absolute top-[-10%] right-[-10%] w-96 h-96 bg-purple-300 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob animation-delay-2000"></div>
-    </div>
-
-    <!-- HEADER -->
+    <!-- Header -->
     <header class="bg-white shadow-sm sticky top-0 z-50">
         <div class="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
             <div class="flex items-center space-x-3">
-                <div class="bg-blue-600 text-white p-2 rounded-lg">
-                    <i class="fas fa-vote-yea"></i>
-                </div>
+                <div class="bg-blue-600 text-white p-2 rounded-lg"><i class="fas fa-vote-yea"></i></div>
                 <div>
-                    <h1 class="font-bold text-lg leading-tight">E-Voting OSIS</h1>
+                    <h1 class="font-bold text-lg leading-tight">E-Voting Terpadu</h1>
                     <p class="text-xs text-slate-500">SMP Negeri 4 Majenang</p>
                 </div>
             </div>
-            
-            <!-- User Info -->
             <div id="user-info" class="hidden flex items-center bg-blue-50 px-4 py-1.5 rounded-full border border-blue-100 shadow-sm">
                 <i class="fas fa-user-circle text-blue-500 mr-2 text-lg"></i>
                 <div class="flex flex-col items-start leading-none">
-                    <span id="display-nama" class="text-xs font-bold text-slate-700 uppercase">Nama Siswa</span>
+                    <span id="display-nama" class="text-xs font-bold text-slate-700 uppercase">Siswa</span>
                     <span id="display-kelas" class="text-[10px] text-slate-500 font-medium">Kelas -</span>
                 </div>
             </div>
         </div>
     </header>
 
-    <!-- MAIN CONTAINER -->
     <main class="max-w-6xl mx-auto px-4 py-8">
 
-        <!-- HALAMAN 1: LOGIN -->
+        <!-- HALAMAN LOGIN -->
         <section id="login-section" class="flex flex-col items-center justify-center min-h-[70vh]">
             <div class="bg-white p-8 rounded-2xl shadow-xl w-full max-w-md border border-slate-100 text-center">
                 <div class="mb-6">
-                    <div class="w-20 h-20 bg-blue-50 text-blue-600 rounded-full flex items-center justify-center text-3xl mx-auto mb-4">
-                        <i class="fas fa-key"></i>
-                    </div>
+                    <div class="w-20 h-20 bg-blue-50 text-blue-600 rounded-full flex items-center justify-center text-3xl mx-auto mb-4"><i class="fas fa-key"></i></div>
                     <h2 class="text-2xl font-bold mb-2">Login Pemilih</h2>
                     <p class="text-slate-500 text-sm">Masukkan NIS untuk masuk.</p>
                 </div>
-
                 <form id="login-form" onsubmit="handleLogin(event)" class="space-y-4">
                     <div class="relative">
                         <i class="fas fa-id-card absolute left-4 top-3.5 text-slate-400"></i>
-                        <input type="text" id="nis-input" placeholder="Contoh: 1234" 
-                            class="w-full pl-10 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 transition font-medium text-center tracking-wide" required>
+                        <input type="text" id="nis-input" placeholder="Contoh: 1234" class="w-full pl-10 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 transition font-medium text-center tracking-wide" required>
                     </div>
-                    <button type="submit" id="btn-login" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-xl transition shadow-lg shadow-blue-500/30 flex justify-center items-center">
+                    <button type="submit" id="btn-login" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-xl transition shadow-lg flex justify-center items-center">
                         <span id="btn-text">Masuk</span>
-                        <div id="btn-loader" class="loader ml-2 hidden" style="width: 20px; height: 20px; border-width: 3px;"></div>
+                        <div id="btn-loader" class="loader ml-2 hidden" style="width:20px;height:20px;border-width:3px;"></div>
                     </button>
                 </form>
             </div>
         </section>
 
-        <!-- HALAMAN 2: SURAT SUARA (Daftar Paslon) -->
-        <section id="voting-section" class="hidden">
-            <div class="text-center mb-10">
-                <h2 class="text-3xl font-bold text-slate-800 mb-3">Pilih Pasangan Calon</h2>
-                <p class="text-slate-600 max-w-2xl mx-auto">Tentukan masa depan sekolahmu. Pilih pasangan Ketua dan Wakil Ketua OSIS terbaik.</p>
+        <!-- CONTAINER VOTING -->
+        <div id="voting-container" class="hidden">
+            
+            <!-- Indikator Progress -->
+            <div class="flex justify-center mb-8 space-x-4">
+                <div id="step-1" class="flex items-center space-x-2 px-4 py-2 rounded-full border-2 step-active transition-all">
+                    <span class="font-bold">1</span> <span class="text-sm font-medium hidden sm:inline">Ketua OSIS</span>
+                </div>
+                <div class="w-8 h-0.5 bg-gray-300 self-center"></div>
+                <div id="step-2" class="flex items-center space-x-2 px-4 py-2 rounded-full border-2 step-inactive transition-all">
+                    <span class="font-bold">2</span> <span class="text-sm font-medium hidden sm:inline">DP Putra</span>
+                </div>
+                <div class="w-8 h-0.5 bg-gray-300 self-center"></div>
+                <div id="step-3" class="flex items-center space-x-2 px-4 py-2 rounded-full border-2 step-inactive transition-all">
+                    <span class="font-bold">3</span> <span class="text-sm font-medium hidden sm:inline">DP Putri</span>
+                </div>
             </div>
 
-            <!-- Grid Paslon -->
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 justify-center">
-                
-                <!-- Paslon 1 -->
-                <div class="candidate-card bg-white rounded-2xl overflow-hidden shadow-lg border border-slate-100 transition-all duration-300 flex flex-col h-full relative">
-                    <!-- Nomor Urut -->
-                    <div class="absolute top-0 right-0 bg-blue-600 text-white w-14 h-14 flex items-center justify-center rounded-bl-3xl font-bold text-2xl z-10 shadow-md">1</div>
+            <!-- BAGIAN 1: PEMILIHAN KETUA OSIS -->
+            <section id="section-osis">
+                <div class="text-center mb-10">
+                    <h2 class="text-3xl font-bold text-slate-800 mb-2">Pilih Ketua & Wakil OSIS</h2>
+                    <p class="text-slate-600">Pilih pasangan terbaik untuk memimpin OSIS.</p>
+                </div>
+                <!-- Menggunakan grid-cols-2 agar pas untuk 2 paslon -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 justify-center max-w-4xl mx-auto">
                     
-                    <!-- Foto Poster -->
-                    <div class="h-56 bg-slate-200 overflow-hidden relative group">
-                        <!-- Placeholder Poster -->
-                        <img src="https://img.freepik.com/free-photo/two-happy-friends-hugging_23-2148106841.jpg" alt="Paslon 1" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
-                    </div>
-                    
-                    <div class="p-6 flex-1 flex flex-col text-center">
-                        <div class="mb-4">
-                            <p class="text-xs font-bold text-blue-600 tracking-wider mb-1">CALON KETUA</p>
-                            <h3 class="text-lg font-bold text-slate-800 leading-tight">Andi</h3>
-                            <div class="h-px w-16 bg-slate-200 mx-auto my-2"></div>
-                            <p class="text-xs font-bold text-slate-500 tracking-wider mb-1">CALON WAKIL</p>
-                            <h3 class="text-lg font-bold text-slate-600 leading-tight">Budi</h3>
+                    <!-- Paslon OSIS 1 -->
+                    <div class="candidate-card bg-white rounded-xl overflow-hidden shadow-lg border border-slate-100 flex flex-col relative">
+                        <div class="absolute top-0 right-0 bg-blue-600 text-white w-14 h-14 flex items-center justify-center rounded-bl-3xl font-bold text-2xl z-10 shadow-md">1</div>
+                        <div class="h-56 bg-slate-200 overflow-hidden group">
+                            <!-- Ganti link gambar di sini -->
+                            <img src="https://img.freepik.com/free-photo/two-happy-friends-hugging_23-2148106841.jpg" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
                         </div>
-                        
-                        <div class="mt-auto">
-                            <button onclick="confirmVote(1, 'Andi', 'Budi')" class="w-full py-3 px-4 bg-blue-600 text-white rounded-lg font-bold hover:bg-blue-700 transition shadow-md shadow-blue-500/20 active:scale-95 transform">
-                                <i class="fas fa-check-circle mr-2"></i> Coblos No. 1
+                        <div class="p-6 text-center flex-1 flex flex-col">
+                            <div class="mb-4">
+                                <p class="text-xs font-bold text-blue-600 tracking-wider mb-1 uppercase">Ketua</p>
+                                <h3 class="font-bold text-slate-800 text-lg">Dika Agus Nurohman</h3>
+                                <p class="text-xs text-slate-500 font-bold">Kelas 8C</p>
+                                
+                                <div class="h-px w-16 bg-slate-200 mx-auto my-3"></div>
+                                
+                                <p class="text-xs font-bold text-slate-600 tracking-wider mb-1 uppercase">Wakil</p>
+                                <h3 class="font-bold text-slate-700 text-lg">Kamelia</h3>
+                                <p class="text-xs text-slate-500 font-bold">Kelas 8F</p>
+                            </div>
+                            <button onclick="saveVote('osis', 'Paslon 01 (Dika & Kamelia)', 'section-osis', 'section-dp-pa', 2)" class="mt-auto w-full py-3 bg-blue-600 text-white rounded-lg font-bold hover:bg-blue-700 transition shadow-lg shadow-blue-500/30">
+                                Coblos No. 1
                             </button>
                         </div>
                     </div>
-                </div>
 
-                <!-- Paslon 2 -->
-                <div class="candidate-card bg-white rounded-2xl overflow-hidden shadow-lg border border-slate-100 transition-all duration-300 flex flex-col h-full relative">
-                    <div class="absolute top-0 right-0 bg-blue-600 text-white w-14 h-14 flex items-center justify-center rounded-bl-3xl font-bold text-2xl z-10 shadow-md">2</div>
-                    
-                    <div class="h-56 bg-slate-200 overflow-hidden relative group">
-                        <img src="https://img.freepik.com/free-photo/medium-shot-boys-posing-together_23-2150319409.jpg" alt="Paslon 2" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
-                    </div>
-                    
-                    <div class="p-6 flex-1 flex flex-col text-center">
-                        <div class="mb-4">
-                            <p class="text-xs font-bold text-blue-600 tracking-wider mb-1">CALON KETUA</p>
-                            <h3 class="text-lg font-bold text-slate-800 leading-tight">Wati</h3>
-                            <div class="h-px w-16 bg-slate-200 mx-auto my-2"></div>
-                            <p class="text-xs font-bold text-slate-500 tracking-wider mb-1">CALON WAKIL</p>
-                            <h3 class="text-lg font-bold text-slate-600 leading-tight">Ani</h3>
+                    <!-- Paslon OSIS 2 -->
+                    <div class="candidate-card bg-white rounded-xl overflow-hidden shadow-lg border border-slate-100 flex flex-col relative">
+                        <div class="absolute top-0 right-0 bg-blue-600 text-white w-14 h-14 flex items-center justify-center rounded-bl-3xl font-bold text-2xl z-10 shadow-md">2</div>
+                        <div class="h-56 bg-slate-200 overflow-hidden group">
+                            <!-- Ganti link gambar di sini -->
+                            <img src="https://img.freepik.com/free-photo/medium-shot-boys-posing-together_23-2150319409.jpg" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
                         </div>
-                        
-                        <div class="mt-auto">
-                            <button onclick="confirmVote(2, 'Wati', 'Ani')" class="w-full py-3 px-4 bg-blue-600 text-white rounded-lg font-bold hover:bg-blue-700 transition shadow-md shadow-blue-500/20 active:scale-95 transform">
-                                <i class="fas fa-check-circle mr-2"></i> Coblos No. 2
+                        <div class="p-6 text-center flex-1 flex flex-col">
+                            <div class="mb-4">
+                                <p class="text-xs font-bold text-blue-600 tracking-wider mb-1 uppercase">Ketua</p>
+                                <h3 class="font-bold text-slate-800 text-lg">Aurel Novita Kamala</h3>
+                                <p class="text-xs text-slate-500 font-bold">Kelas 8F</p>
+                                
+                                <div class="h-px w-16 bg-slate-200 mx-auto my-3"></div>
+                                
+                                <p class="text-xs font-bold text-slate-600 tracking-wider mb-1 uppercase">Wakil</p>
+                                <h3 class="font-bold text-slate-700 text-lg">Sidik Maulana</h3>
+                                <p class="text-xs text-slate-500 font-bold">Kelas 8E</p>
+                            </div>
+                            <button onclick="saveVote('osis', 'Paslon 02 (Aurel & Sidik)', 'section-osis', 'section-dp-pa', 2)" class="mt-auto w-full py-3 bg-blue-600 text-white rounded-lg font-bold hover:bg-blue-700 transition shadow-lg shadow-blue-500/30">
+                                Coblos No. 2
                             </button>
                         </div>
                     </div>
-                </div>
 
-                <!-- Paslon 3 -->
-                <div class="candidate-card bg-white rounded-2xl overflow-hidden shadow-lg border border-slate-100 transition-all duration-300 flex flex-col h-full relative">
-                    <div class="absolute top-0 right-0 bg-blue-600 text-white w-14 h-14 flex items-center justify-center rounded-bl-3xl font-bold text-2xl z-10 shadow-md">3</div>
+                </div>
+            </section>
+
+            <!-- BAGIAN 2: PEMILIHAN DP PUTRA -->
+            <section id="section-dp-pa" class="hidden">
+                <div class="text-center mb-10">
+                    <h2 class="text-3xl font-bold text-slate-800 mb-2">Pilih Ketua DP Putra</h2>
+                    <p class="text-slate-600">Pilih Pratama Dewan Penggalang Putra.</p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 justify-center max-w-4xl mx-auto">
                     
-                    <div class="h-56 bg-slate-200 overflow-hidden relative group">
-                        <img src="https://img.freepik.com/free-photo/medium-shot-girls-posing-together_23-2150319401.jpg" alt="Paslon 3" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
-                    </div>
-                    
-                    <div class="p-6 flex-1 flex flex-col text-center">
-                        <div class="mb-4">
-                            <p class="text-xs font-bold text-blue-600 tracking-wider mb-1">CALON KETUA</p>
-                            <h3 class="text-lg font-bold text-slate-800 leading-tight">Zaenal</h3>
-                            <div class="h-px w-16 bg-slate-200 mx-auto my-2"></div>
-                            <p class="text-xs font-bold text-slate-500 tracking-wider mb-1">CALON WAKIL</p>
-                            <h3 class="text-lg font-bold text-slate-600 leading-tight">Arifin</h3>
+                    <!-- DP PA 1 -->
+                    <div class="candidate-card bg-white rounded-xl overflow-hidden shadow-lg border border-slate-100 flex flex-col relative">
+                        <div class="absolute top-0 right-0 bg-green-600 text-white w-14 h-14 flex items-center justify-center rounded-bl-3xl font-bold text-2xl z-10 shadow-md">1</div>
+                        <div class="h-56 bg-slate-200 overflow-hidden group">
+                            <img src="https://img.freepik.com/free-photo/handsome-young-man-with-arms-crossed-white-background_23-2148222620.jpg" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
                         </div>
-                        
-                        <div class="mt-auto">
-                            <button onclick="confirmVote(3, 'Zaenal', 'Arifin')" class="w-full py-3 px-4 bg-blue-600 text-white rounded-lg font-bold hover:bg-blue-700 transition shadow-md shadow-blue-500/20 active:scale-95 transform">
-                                <i class="fas fa-check-circle mr-2"></i> Coblos No. 3
+                        <div class="p-6 text-center flex-1 flex flex-col">
+                            <div class="mb-4">
+                                <h3 class="font-bold text-slate-800 text-xl">Galih Priyadi</h3>
+                                <p class="text-sm text-slate-500 font-bold mt-1">Kelas 8F</p>
+                            </div>
+                            <button onclick="saveVote('dp_pa', 'Galih Priyadi (No. 1)', 'section-dp-pa', 'section-dp-pi', 3)" class="mt-auto w-full py-3 bg-green-600 text-white rounded-lg font-bold hover:bg-green-700 transition shadow-lg shadow-green-500/30">
+                                Pilih Galih
                             </button>
                         </div>
                     </div>
+
+                    <!-- DP PA 2 -->
+                    <div class="candidate-card bg-white rounded-xl overflow-hidden shadow-lg border border-slate-100 flex flex-col relative">
+                        <div class="absolute top-0 right-0 bg-green-600 text-white w-14 h-14 flex items-center justify-center rounded-bl-3xl font-bold text-2xl z-10 shadow-md">2</div>
+                        <div class="h-56 bg-slate-200 overflow-hidden group">
+                            <img src="https://img.freepik.com/free-photo/portrait-handsome-teenager-boy_23-2148105740.jpg" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                        </div>
+                        <div class="p-6 text-center flex-1 flex flex-col">
+                            <div class="mb-4">
+                                <h3 class="font-bold text-slate-800 text-xl">Gian Aditya Mahya</h3>
+                                <p class="text-sm text-slate-500 font-bold mt-1">Kelas 8B</p>
+                            </div>
+                            <button onclick="saveVote('dp_pa', 'Gian Aditya (No. 2)', 'section-dp-pa', 'section-dp-pi', 3)" class="mt-auto w-full py-3 bg-green-600 text-white rounded-lg font-bold hover:bg-green-700 transition shadow-lg shadow-green-500/30">
+                                Pilih Gian
+                            </button>
+                        </div>
+                    </div>
+
                 </div>
+            </section>
 
-            </div>
-        </section>
+            <!-- BAGIAN 3: PEMILIHAN DP PUTRI -->
+            <section id="section-dp-pi" class="hidden">
+                <div class="text-center mb-10">
+                    <h2 class="text-3xl font-bold text-slate-800 mb-2">Pilih Ketua DP Putri</h2>
+                    <p class="text-slate-600">Pilih Pratami Dewan Penggalang Putri.</p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 justify-center max-w-4xl mx-auto">
+                    
+                    <!-- DP PI 1 -->
+                    <div class="candidate-card bg-white rounded-xl overflow-hidden shadow-lg border border-slate-100 flex flex-col relative">
+                        <div class="absolute top-0 right-0 bg-pink-600 text-white w-14 h-14 flex items-center justify-center rounded-bl-3xl font-bold text-2xl z-10 shadow-md">1</div>
+                        <div class="h-56 bg-slate-200 overflow-hidden group">
+                            <img src="https://img.freepik.com/free-photo/happy-young-female-student-holding-notebooks-from-courses-smiling-camera-standing-spring-clothes-against-blue-background_1258-70161.jpg" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                        </div>
+                        <div class="p-6 text-center flex-1 flex flex-col">
+                            <div class="mb-4">
+                                <h3 class="font-bold text-slate-800 text-xl">Denaya Septiani</h3>
+                                <p class="text-sm text-slate-500 font-bold mt-1">Kelas 8A</p>
+                            </div>
+                            <button onclick="saveVote('dp_pi', 'Denaya Septiani (No. 1)', 'section-dp-pi', 'finish', 4)" class="mt-auto w-full py-3 bg-pink-600 text-white rounded-lg font-bold hover:bg-pink-700 transition shadow-lg shadow-pink-500/30">
+                                Pilih Denaya
+                            </button>
+                        </div>
+                    </div>
 
-        <!-- HALAMAN 3: SUKSES -->
+                    <!-- DP PI 2 -->
+                    <div class="candidate-card bg-white rounded-xl overflow-hidden shadow-lg border border-slate-100 flex flex-col relative">
+                        <div class="absolute top-0 right-0 bg-pink-600 text-white w-14 h-14 flex items-center justify-center rounded-bl-3xl font-bold text-2xl z-10 shadow-md">2</div>
+                        <div class="h-56 bg-slate-200 overflow-hidden group">
+                            <img src="https://img.freepik.com/free-photo/front-view-young-beautiful-lady-red-t-shirt-black-jeans-holding-copybook-smiling_140725-18636.jpg" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                        </div>
+                        <div class="p-6 text-center flex-1 flex flex-col">
+                            <div class="mb-4">
+                                <h3 class="font-bold text-slate-800 text-xl">Saikoh Nur Azizah</h3>
+                                <p class="text-sm text-slate-500 font-bold mt-1">Kelas 8C</p>
+                            </div>
+                            <button onclick="saveVote('dp_pi', 'Saikoh Nur Azizah (No. 2)', 'section-dp-pi', 'finish', 4)" class="mt-auto w-full py-3 bg-pink-600 text-white rounded-lg font-bold hover:bg-pink-700 transition shadow-lg shadow-pink-500/30">
+                                Pilih Saikoh
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+
+        </div>
+
+        <!-- HALAMAN SUKSES -->
         <section id="success-section" class="hidden flex-col items-center justify-center min-h-[60vh] text-center">
             <div class="w-24 h-24 bg-green-100 text-green-600 rounded-full flex items-center justify-center text-5xl mb-6 animate-bounce">
                 <i class="fas fa-check"></i>
             </div>
-            <h2 class="text-3xl font-bold text-slate-800 mb-2">Suara Berhasil Masuk!</h2>
-            <p class="text-slate-600 text-lg mb-8">Terima kasih <span id="success-name" class="font-bold"></span> telah berpartisipasi.</p>
-            
-            <button onclick="window.location.reload()" class="px-6 py-3 bg-slate-200 hover:bg-slate-300 text-slate-700 font-semibold rounded-lg transition flex items-center mx-auto">
-                <i class="fas fa-redo-alt mr-2"></i> Kembali ke Login
+            <h2 class="text-3xl font-bold text-slate-800 mb-2">Terima Kasih!</h2>
+            <p class="text-slate-600 text-lg mb-8">Suara Anda untuk <strong>OSIS, DP Putra, & DP Putri</strong> telah tersimpan.</p>
+            <button onclick="window.location.reload()" class="px-6 py-3 bg-slate-200 hover:bg-slate-300 text-slate-700 font-semibold rounded-lg transition">
+                <i class="fas fa-sign-out-alt mr-2"></i> Keluar
             </button>
         </section>
 
     </main>
+    
+    <footer class="text-center py-6 text-slate-400 text-xs mt-auto">&copy; 2026 Tim IT SMPN 4 Majenang.</footer>
 
-    <!-- Footer -->
-    <footer class="text-center py-6 text-slate-400 text-xs mt-auto">
-        &copy; 2026 Tim IT SMPN 4 Majenang. <br>E-Voting System v2.0 (Paslon Supported)
-    </footer>
-
-    <!-- JAVASCRIPT LOGIC -->
     <script>
-        // === KONFIGURASI ===
-        const USE_GOOGLE_SHEET = true; // Ubah ke TRUE jika script sudah siap
-        const GAS_URL = "https://script.google.com/macros/s/AKfycbxrrDcdrGmRyFzRiI5gF5k11cbzuEeK5PFj4jOEp0AsXZmyscyM_ezROs1M4RyFu_e5/exec"; 
+        // CONFIG
+        const USE_GOOGLE_SHEET = true; 
+        // Pastikan ini URL Web App terbaru Anda
+        const GAS_URL = "https://script.google.com/macros/s/AKfycbxrrDcdrGmRyFzRiI5gF5k11cbzuEeK5PFj4jOEp0AsXZmyscyM_ezROs1M4RyFu_e5/exec";
 
-        // Data Simulasi (Mockup)
+        // MOCK DATA (Untuk testing tanpa Sheet)
         const mockDatabase = {
             "1234": { nama: "Ahmad Rizki", kelas: "9A", status: "Belum" },
-            "5678": { nama: "Bunga Pertiwi", kelas: "8C", status: "Sudah" }, 
+            "5678": { nama: "Bunga Pertiwi", kelas: "8C", status: "Sudah" },
             "1111": { nama: "Admin Test", kelas: "Guru", status: "Belum" }
         };
 
-        let currentUserNis = ""; // Variabel NIS
-        let currentUserName = "";
-        let currentUserClass = "";
+        // STATE
+        let userData = { nis: "", nama: "", kelas: "" };
+        let finalVotes = { osis: "", dp_pa: "", dp_pi: "" };
 
-        // Fungsi Login
+        // LOGIN
         async function handleLogin(e) {
             e.preventDefault();
-            const nis = document.getElementById('nis-input').value; // Ambil input NIS
+            const nis = document.getElementById('nis-input').value;
+            const btn = document.getElementById('btn-login');
             const btnText = document.getElementById('btn-text');
             const btnLoader = document.getElementById('btn-loader');
-            const btn = document.getElementById('btn-login');
 
             btn.disabled = true;
-            btnText.textContent = "Mengecek Database...";
+            btnText.textContent = "Mengecek...";
             btnLoader.classList.remove('hidden');
 
             try {
                 let response;
-
                 if (USE_GOOGLE_SHEET) {
-                    // UPDATE PENTING: Menggunakan parameter 'nis' di URL
                     const res = await fetch(`${GAS_URL}?action=login&nis=${nis}`);
                     response = await res.json();
                 } else {
-                    await new Promise(r => setTimeout(r, 1000));
+                    await new Promise(r => setTimeout(r, 800));
                     if (mockDatabase[nis]) {
-                        if (mockDatabase[nis].status === "Sudah") {
-                            response = { status: 'error', message: 'Anda sudah menggunakan hak suara sebelumnya!' };
-                        } else {
-                            response = { status: 'success', nama: mockDatabase[nis].nama, kelas: mockDatabase[nis].kelas };
-                        }
-                    } else {
-                        response = { status: 'error', message: 'NIS tidak ditemukan dalam daftar pemilih!' };
-                    }
+                        if (mockDatabase[nis].status === "Sudah") response = { status: 'error', message: 'Anda sudah memilih!' };
+                        else response = { status: 'success', nama: mockDatabase[nis].nama, kelas: mockDatabase[nis].kelas };
+                    } else response = { status: 'error', message: 'NIS tidak ditemukan!' };
                 }
 
                 if (response.status === 'success') {
-                    currentUserNis = nis;
-                    currentUserName = response.nama;
-                    currentUserClass = response.kelas || "";
-
-                    document.getElementById('display-nama').textContent = currentUserName;
-                    document.getElementById('display-kelas').textContent = currentUserClass ? `Kelas ${currentUserClass}` : '';
+                    userData = { nis: nis, nama: response.nama, kelas: response.kelas };
+                    document.getElementById('display-nama').textContent = userData.nama;
+                    document.getElementById('display-kelas').textContent = "Kelas " + (userData.kelas || "-");
                     document.getElementById('user-info').classList.remove('hidden');
                     document.getElementById('user-info').classList.add('flex');
-                    
                     document.getElementById('login-section').classList.add('hidden');
-                    document.getElementById('voting-section').classList.remove('hidden');
-                    
-                    Swal.fire({
-                        icon: 'success',
-                        title: `Selamat Datang!`,
-                        html: `<p class="text-lg font-bold">${currentUserName}</p><p class="text-sm text-gray-500">${currentUserClass ? 'Kelas ' + currentUserClass : ''}</p>`,
-                        timer: 2000,
-                        showConfirmButton: false
-                    });
+                    document.getElementById('voting-container').classList.remove('hidden');
                 } else {
-                    Swal.fire({ icon: 'error', title: 'Akses Ditolak', text: response.message });
+                    Swal.fire({ icon: 'error', title: 'Gagal', text: response.message });
                 }
-
-            } catch (error) {
-                console.error(error);
-                Swal.fire({ icon: 'error', title: 'Error', text: 'Gagal terhubung ke server.' });
+            } catch (err) {
+                console.error(err);
+                Swal.fire({ icon: 'error', title: 'Error', text: 'Gagal koneksi server.' });
             } finally {
                 btn.disabled = false;
                 btnText.textContent = "Masuk";
@@ -288,65 +317,82 @@
             }
         }
 
-        // Fungsi Konfirmasi Pilih
-        function confirmVote(id, ketua, wakil) {
+        // SAVE VOTE LOCALLY & NEXT STEP
+        function saveVote(category, choice, currentSection, nextSection, stepNum) {
             Swal.fire({
                 title: 'Konfirmasi Pilihan',
-                html: `Anda akan memilih Paslon No. ${id}<br>
-                       <div class="bg-blue-50 p-3 rounded-lg mt-3 border border-blue-100">
-                           <strong class="text-blue-700 text-lg block">${ketua}</strong>
-                           <span class="text-slate-500 text-sm">&</span>
-                           <strong class="text-blue-600 text-lg block">${wakil}</strong>
-                       </div>
-                       <br><span class="text-xs text-red-500">Pilihan tidak dapat diubah setelah dikonfirmasi!</span>`,
+                text: `Anda memilih: ${choice}`,
                 icon: 'question',
                 showCancelButton: true,
                 confirmButtonColor: '#2563EB',
-                cancelButtonColor: '#94a3b8',
-                confirmButtonText: 'Ya, Coblos!',
-                cancelButtonText: 'Batal'
+                confirmButtonText: 'Ya, Lanjut',
+                cancelButtonText: 'Ubah'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    const dataPilihan = `Paslon 0${id} (${ketua} & ${wakil})`;
-                    submitVote(dataPilihan);
+                    // Simpan Pilihan
+                    finalVotes[category] = choice;
+
+                    // Pindah Section
+                    if (nextSection === 'finish') {
+                        submitAllVotes();
+                    } else {
+                        document.getElementById(currentSection).classList.add('hidden');
+                        document.getElementById(nextSection).classList.remove('hidden');
+                        
+                        // Update Step Indicator
+                        updateStep(stepNum);
+                        window.scrollTo(0,0);
+                    }
                 }
             });
         }
 
-        // Fungsi Kirim Suara ke Database
-        async function submitVote(dataPilihanString) {
+        function updateStep(num) {
+            // Reset semua step sebelumnya jadi 'done' (hijau)
+            if(num > 1) { document.getElementById('step-1').className = "flex items-center space-x-2 px-4 py-2 rounded-full border-2 step-done transition-all"; }
+            if(num > 2) { document.getElementById('step-2').className = "flex items-center space-x-2 px-4 py-2 rounded-full border-2 step-done transition-all"; }
+            if(num > 3) { document.getElementById('step-3').className = "flex items-center space-x-2 px-4 py-2 rounded-full border-2 step-done transition-all"; }
+
+            // Set current step active (biru)
+            if(num <= 3) {
+                const current = document.getElementById('step-' + num);
+                current.className = "flex items-center space-x-2 px-4 py-2 rounded-full border-2 step-active transition-all";
+            }
+        }
+
+        // SUBMIT ALL TO SERVER
+        async function submitAllVotes() {
             Swal.fire({
                 title: 'Mengirim Suara...',
-                text: 'Mohon jangan tutup halaman ini',
+                text: 'Mohon tunggu, sedang menyimpan 3 suara Anda.',
                 allowOutsideClick: false,
                 didOpen: () => { Swal.showLoading(); }
             });
 
             try {
                 if (USE_GOOGLE_SHEET) {
-                    // UPDATE PENTING: Mengirim key 'nis' di dalam JSON Body
                     await fetch(GAS_URL, {
                         method: 'POST',
-                        body: JSON.stringify({ 
-                            nis: currentUserNis, 
-                            kandidat: dataPilihanString, 
-                            nama: currentUserName 
+                        body: JSON.stringify({
+                            nis: userData.nis,
+                            nama: userData.nama,
+                            vote_osis: finalVotes.osis,
+                            vote_dp_pa: finalVotes.dp_pa,
+                            vote_dp_pi: finalVotes.dp_pi
                         })
                     });
                 } else {
-                    // Simulasi Kirim
                     await new Promise(r => setTimeout(r, 2000));
-                    console.log(`Suara: "${dataPilihanString}" dari ${currentUserName} tersimpan.`);
+                    console.log("Submitted:", finalVotes);
                 }
 
                 Swal.close();
-                document.getElementById('success-name').textContent = currentUserName;
-                document.getElementById('voting-section').classList.add('hidden');
+                document.getElementById('voting-container').classList.add('hidden');
                 document.getElementById('success-section').classList.remove('hidden');
                 document.getElementById('success-section').classList.add('flex');
 
-            } catch (error) {
-                Swal.fire({ icon: 'error', title: 'Gagal', text: 'Terjadi kesalahan saat mengirim suara.' });
+            } catch (err) {
+                Swal.fire({ icon: 'error', title: 'Gagal', text: 'Terjadi kesalahan saat kirim data.' });
             }
         }
     </script>
