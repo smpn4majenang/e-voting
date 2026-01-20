@@ -95,50 +95,44 @@
                     <!-- Paslon OSIS 1 -->
                     <div class="candidate-card bg-white rounded-xl overflow-hidden shadow-lg border border-slate-100 flex flex-col relative">
                         <div class="absolute top-0 right-0 bg-blue-600 text-white w-14 h-14 flex items-center justify-center rounded-bl-3xl font-bold text-2xl z-10 shadow-md">1</div>
-                        <div class="h-56 bg-slate-200 overflow-hidden group">
-                            <!-- Foto OSIS 1 -->
-                            <img src="https://photos.fife.usercontent.google.com/pw/AP1GczM4OdUVaezd88xnkpYUdrQDJSbYYVBah-iWHHn5rIupp_KARFoRnL3k=w620-h878-s-no-gm?authuser=0" onerror="this.src='https://via.placeholder.com/400x300?text=Foto+Gagal+Dimuat'" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                        <div class="h-56 bg-slate-200 overflow-hidden group relative">
+                            <!-- Loading indicator fallback -->
+                            <div class="absolute inset-0 flex items-center justify-center bg-gray-100 text-gray-400 text-xs">Memuat Gambar...</div>
+                            <!-- FOTO: Menggunakan thumbnail endpoint yang lebih stabil -->
+                            <img src="https://drive.google.com/thumbnail?id=1DB8oJ_IKFykDDeTI4qiLeQIbfJvt5tHF&sz=w800" referrerpolicy="no-referrer" class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.parentElement.innerHTML='<div class=\'flex items-center justify-center h-full bg-gray-300 text-gray-500 text-sm p-4 text-center\'>Gagal Memuat Foto.<br>Pastikan akses Drive: Public</div>'">
                         </div>
                         <div class="p-6 text-center flex-1 flex flex-col">
                             <div class="mb-4">
                                 <p class="text-xs font-bold text-blue-600 tracking-wider mb-1 uppercase">Ketua</p>
                                 <h3 class="font-bold text-slate-800 text-lg">Dika Agus Nurohman</h3>
                                 <p class="text-xs text-slate-500 font-bold">Kelas 8C</p>
-                                
                                 <div class="h-px w-16 bg-slate-200 mx-auto my-3"></div>
-                                
                                 <p class="text-xs font-bold text-slate-600 tracking-wider mb-1 uppercase">Wakil</p>
                                 <h3 class="font-bold text-slate-700 text-lg">Kamelia</h3>
                                 <p class="text-xs text-slate-500 font-bold">Kelas 8F</p>
                             </div>
-                            <button onclick="saveVote('osis', 'Paslon 01 (Dika & Kamelia)', 'section-osis', 'section-dp-pa', 2)" class="mt-auto w-full py-3 bg-blue-600 text-white rounded-lg font-bold hover:bg-blue-700 transition shadow-lg shadow-blue-500/30">
-                                Coblos No. 1
-                            </button>
+                            <button onclick="saveVote('osis', 'Paslon 01 (Dika & Kamelia)', 'section-osis', 'section-dp-pa', 2)" class="mt-auto w-full py-3 bg-blue-600 text-white rounded-lg font-bold hover:bg-blue-700 transition shadow-lg shadow-blue-500/30">Coblos No. 1</button>
                         </div>
                     </div>
 
                     <!-- Paslon OSIS 2 -->
                     <div class="candidate-card bg-white rounded-xl overflow-hidden shadow-lg border border-slate-100 flex flex-col relative">
                         <div class="absolute top-0 right-0 bg-blue-600 text-white w-14 h-14 flex items-center justify-center rounded-bl-3xl font-bold text-2xl z-10 shadow-md">2</div>
-                        <div class="h-56 bg-slate-200 overflow-hidden group">
-                            <!-- Foto OSIS 2 -->
-                            <img src="https://photos.fife.usercontent.google.com/pw/AP1GczOga_1KKJejqO97Y2P1GOZNDGDkDXHG4WDdID3FQcJSv6aookubEsT4=w620-h878-s-no-gm?authuser=0" onerror="this.src='https://via.placeholder.com/400x300?text=Foto+Gagal+Dimuat'" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                        <div class="h-56 bg-slate-200 overflow-hidden group relative">
+                            <div class="absolute inset-0 flex items-center justify-center bg-gray-100 text-gray-400 text-xs">Memuat Gambar...</div>
+                            <img src="https://drive.google.com/thumbnail?id=1w7N-CNm6tRu6q3cCnmqP7h3WCgivGb4J&sz=w800" referrerpolicy="no-referrer" class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.parentElement.innerHTML='<div class=\'flex items-center justify-center h-full bg-gray-300 text-gray-500 text-sm p-4 text-center\'>Gagal Memuat Foto.<br>Pastikan akses Drive: Public</div>'">
                         </div>
                         <div class="p-6 text-center flex-1 flex flex-col">
                             <div class="mb-4">
                                 <p class="text-xs font-bold text-blue-600 tracking-wider mb-1 uppercase">Ketua</p>
                                 <h3 class="font-bold text-slate-800 text-lg">Aurel Novita Kamala</h3>
                                 <p class="text-xs text-slate-500 font-bold">Kelas 8F</p>
-                                
                                 <div class="h-px w-16 bg-slate-200 mx-auto my-3"></div>
-                                
                                 <p class="text-xs font-bold text-slate-600 tracking-wider mb-1 uppercase">Wakil</p>
                                 <h3 class="font-bold text-slate-700 text-lg">Sidik Maulana</h3>
                                 <p class="text-xs text-slate-500 font-bold">Kelas 8E</p>
                             </div>
-                            <button onclick="saveVote('osis', 'Paslon 02 (Aurel & Sidik)', 'section-osis', 'section-dp-pa', 2)" class="mt-auto w-full py-3 bg-blue-600 text-white rounded-lg font-bold hover:bg-blue-700 transition shadow-lg shadow-blue-500/30">
-                                Coblos No. 2
-                            </button>
+                            <button onclick="saveVote('osis', 'Paslon 02 (Aurel & Sidik)', 'section-osis', 'section-dp-pa', 2)" class="mt-auto w-full py-3 bg-blue-600 text-white rounded-lg font-bold hover:bg-blue-700 transition shadow-lg shadow-blue-500/30">Coblos No. 2</button>
                         </div>
                     </div>
 
@@ -156,36 +150,32 @@
                     <!-- DP PA 1 -->
                     <div class="candidate-card bg-white rounded-xl overflow-hidden shadow-lg border border-slate-100 flex flex-col relative">
                         <div class="absolute top-0 right-0 bg-green-600 text-white w-14 h-14 flex items-center justify-center rounded-bl-3xl font-bold text-2xl z-10 shadow-md">1</div>
-                        <div class="h-56 bg-slate-200 overflow-hidden group">
-                            <!-- Foto DP PA 1 -->
-                            <img src="https://photos.fife.usercontent.google.com/pw/AP1GczOQCxYAInVOgcxw-l_n7FQ5XYscnl7luRauNHt8KA15ufwGQU7gwS5D=w585-h878-s-no-gm?authuser=0" onerror="this.src='https://via.placeholder.com/400x300?text=Foto+Gagal+Dimuat'" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                        <div class="h-56 bg-slate-200 overflow-hidden group relative">
+                            <div class="absolute inset-0 flex items-center justify-center bg-gray-100 text-gray-400 text-xs">Memuat Gambar...</div>
+                            <img src="https://drive.google.com/thumbnail?id=1Y2x8eMplWXo6a0VTNzBObXsb7-3PSv-1&sz=w800" referrerpolicy="no-referrer" class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.parentElement.innerHTML='<div class=\'flex items-center justify-center h-full bg-gray-300 text-gray-500 text-sm p-4 text-center\'>Gagal Memuat Foto.<br>Pastikan akses Drive: Public</div>'">
                         </div>
                         <div class="p-6 text-center flex-1 flex flex-col">
                             <div class="mb-4">
                                 <h3 class="font-bold text-slate-800 text-xl">Galih Priyadi</h3>
                                 <p class="text-sm text-slate-500 font-bold mt-1">Kelas 8F</p>
                             </div>
-                            <button onclick="saveVote('dp_pa', 'Galih Priyadi (No. 1)', 'section-dp-pa', 'section-dp-pi', 3)" class="mt-auto w-full py-3 bg-green-600 text-white rounded-lg font-bold hover:bg-green-700 transition shadow-lg shadow-green-500/30">
-                                Pilih Galih
-                            </button>
+                            <button onclick="saveVote('dp_pa', 'Galih Priyadi (No. 1)', 'section-dp-pa', 'section-dp-pi', 3)" class="mt-auto w-full py-3 bg-green-600 text-white rounded-lg font-bold hover:bg-green-700 transition shadow-lg shadow-green-500/30">Pilih Galih</button>
                         </div>
                     </div>
 
                     <!-- DP PA 2 -->
                     <div class="candidate-card bg-white rounded-xl overflow-hidden shadow-lg border border-slate-100 flex flex-col relative">
                         <div class="absolute top-0 right-0 bg-green-600 text-white w-14 h-14 flex items-center justify-center rounded-bl-3xl font-bold text-2xl z-10 shadow-md">2</div>
-                        <div class="h-56 bg-slate-200 overflow-hidden group">
-                            <!-- Foto DP PA 2 -->
-                            <img src="https://photos.fife.usercontent.google.com/pw/AP1GczOeFtGwob7VlPhRI8EGzin7A_QjYoBDn2Trs8ndWuOWLmajfjRQsx_f=w620-h878-s-no-gm?authuser=0" onerror="this.src='https://via.placeholder.com/400x300?text=Foto+Gagal+Dimuat'" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                        <div class="h-56 bg-slate-200 overflow-hidden group relative">
+                            <div class="absolute inset-0 flex items-center justify-center bg-gray-100 text-gray-400 text-xs">Memuat Gambar...</div>
+                            <img src="https://drive.google.com/thumbnail?id=1MsCwoOzfVrVJfofgUxIAEAiBxjZHGa1B&sz=w800" referrerpolicy="no-referrer" class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.parentElement.innerHTML='<div class=\'flex items-center justify-center h-full bg-gray-300 text-gray-500 text-sm p-4 text-center\'>Gagal Memuat Foto.<br>Pastikan akses Drive: Public</div>'">
                         </div>
                         <div class="p-6 text-center flex-1 flex flex-col">
                             <div class="mb-4">
                                 <h3 class="font-bold text-slate-800 text-xl">Gian Aditya Mahya</h3>
                                 <p class="text-sm text-slate-500 font-bold mt-1">Kelas 8B</p>
                             </div>
-                            <button onclick="saveVote('dp_pa', 'Gian Aditya (No. 2)', 'section-dp-pa', 'section-dp-pi', 3)" class="mt-auto w-full py-3 bg-green-600 text-white rounded-lg font-bold hover:bg-green-700 transition shadow-lg shadow-green-500/30">
-                                Pilih Gian
-                            </button>
+                            <button onclick="saveVote('dp_pa', 'Gian Aditya (No. 2)', 'section-dp-pa', 'section-dp-pi', 3)" class="mt-auto w-full py-3 bg-green-600 text-white rounded-lg font-bold hover:bg-green-700 transition shadow-lg shadow-green-500/30">Pilih Gian</button>
                         </div>
                     </div>
 
@@ -203,36 +193,32 @@
                     <!-- DP PI 1 -->
                     <div class="candidate-card bg-white rounded-xl overflow-hidden shadow-lg border border-slate-100 flex flex-col relative">
                         <div class="absolute top-0 right-0 bg-pink-600 text-white w-14 h-14 flex items-center justify-center rounded-bl-3xl font-bold text-2xl z-10 shadow-md">1</div>
-                        <div class="h-56 bg-slate-200 overflow-hidden group">
-                            <!-- Foto DP PI 1 -->
-                            <img src="https://photos.fife.usercontent.google.com/pw/AP1GczN7lu2683qfKZdtCkBNHX_paEjZaaPkpU7NSjtu3N_Boq9z81Sc4gkt=w624-h878-s-no-gm?authuser=0" onerror="this.src='https://via.placeholder.com/400x300?text=Foto+Gagal+Dimuat'" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                        <div class="h-56 bg-slate-200 overflow-hidden group relative">
+                            <div class="absolute inset-0 flex items-center justify-center bg-gray-100 text-gray-400 text-xs">Memuat Gambar...</div>
+                            <img src="https://drive.google.com/thumbnail?id=1SjWRxh2MiAWplsJ9qdwmxibnsA3ZViev&sz=w800" referrerpolicy="no-referrer" class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.parentElement.innerHTML='<div class=\'flex items-center justify-center h-full bg-gray-300 text-gray-500 text-sm p-4 text-center\'>Gagal Memuat Foto.<br>Pastikan akses Drive: Public</div>'">
                         </div>
                         <div class="p-6 text-center flex-1 flex flex-col">
                             <div class="mb-4">
                                 <h3 class="font-bold text-slate-800 text-xl">Denaya Septiani</h3>
                                 <p class="text-sm text-slate-500 font-bold mt-1">Kelas 8A</p>
                             </div>
-                            <button onclick="saveVote('dp_pi', 'Denaya Septiani (No. 1)', 'section-dp-pi', 'finish', 4)" class="mt-auto w-full py-3 bg-pink-600 text-white rounded-lg font-bold hover:bg-pink-700 transition shadow-lg shadow-pink-500/30">
-                                Pilih Denaya
-                            </button>
+                            <button onclick="saveVote('dp_pi', 'Denaya Septiani (No. 1)', 'section-dp-pi', 'finish', 4)" class="mt-auto w-full py-3 bg-pink-600 text-white rounded-lg font-bold hover:bg-pink-700 transition shadow-lg shadow-pink-500/30">Pilih Denaya</button>
                         </div>
                     </div>
 
                     <!-- DP PI 2 -->
                     <div class="candidate-card bg-white rounded-xl overflow-hidden shadow-lg border border-slate-100 flex flex-col relative">
                         <div class="absolute top-0 right-0 bg-pink-600 text-white w-14 h-14 flex items-center justify-center rounded-bl-3xl font-bold text-2xl z-10 shadow-md">2</div>
-                        <div class="h-56 bg-slate-200 overflow-hidden group">
-                            <!-- Foto DP PI 2 -->
-                            <img src="https://photos.fife.usercontent.google.com/pw/AP1GczPRRComVG64MH59PS5R0q-1OJnooBHXfw5B0ASZJwyeGPNfSx5Bvlfo=w621-h878-s-no-gm?authuser=0" onerror="this.src='https://via.placeholder.com/400x300?text=Foto+Gagal+Dimuat'" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                        <div class="h-56 bg-slate-200 overflow-hidden group relative">
+                            <div class="absolute inset-0 flex items-center justify-center bg-gray-100 text-gray-400 text-xs">Memuat Gambar...</div>
+                            <img src="https://drive.google.com/thumbnail?id=1o0NlxFTK2AjQDPFT0Y9743blWZYVWSDM&sz=w800" referrerpolicy="no-referrer" class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.parentElement.innerHTML='<div class=\'flex items-center justify-center h-full bg-gray-300 text-gray-500 text-sm p-4 text-center\'>Gagal Memuat Foto.<br>Pastikan akses Drive: Public</div>'">
                         </div>
                         <div class="p-6 text-center flex-1 flex flex-col">
                             <div class="mb-4">
                                 <h3 class="font-bold text-slate-800 text-xl">Saikoh Nur Azizah</h3>
                                 <p class="text-sm text-slate-500 font-bold mt-1">Kelas 8C</p>
                             </div>
-                            <button onclick="saveVote('dp_pi', 'Saikoh Nur Azizah (No. 2)', 'section-dp-pi', 'finish', 4)" class="mt-auto w-full py-3 bg-pink-600 text-white rounded-lg font-bold hover:bg-pink-700 transition shadow-lg shadow-pink-500/30">
-                                Pilih Saikoh
-                            </button>
+                            <button onclick="saveVote('dp_pi', 'Saikoh Nur Azizah (No. 2)', 'section-dp-pi', 'finish', 4)" class="mt-auto w-full py-3 bg-pink-600 text-white rounded-lg font-bold hover:bg-pink-700 transition shadow-lg shadow-pink-500/30">Pilih Saikoh</button>
                         </div>
                     </div>
 
